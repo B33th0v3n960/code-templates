@@ -7,6 +7,7 @@ CC      := gcc
 CFLAGS  := -Wall -Wextra -std=c11 -Iinclude
 LDFLAGS :=
 LDLIBS  :=
+# MAKEFLAGS += -j$(shell nproc)
 
 # Directories
 SRC_DIR   := src
@@ -84,7 +85,10 @@ help:
 	@echo
 	@echo "Target rules:"
 	@echo "    all              - Compiles and generates binary file"
+	@echo "    run              - Runs the compiled binary file"
 	@echo "    tests            - Compile and run tests binary file"
 	@echo "    compile_flags    - Creates the compile_flags.txt with the CFLAGS values"
+	@echo "    debug            - Build with sanitizers and debug symbols"
+	@echo "    release          - Build with optimizations"
 	@echo "    clean            - Clean the project by removing binaries and object files"
 	@echo "    help             - Prints a help message with target rules"
