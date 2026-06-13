@@ -67,7 +67,7 @@ $(UNITY_OBJ): $(TEST_DIR)/unity/unity.c | $(BUILD_DIR)
 
 # Build each test binary
 $(BUILD_DIR)/%: $(TEST_DIR)/%.c $(LIB_OBJS) $(UNITY_OBJ) | $(BUILD_DIR)
-	$(CC) $(CFLAGS) $(LDFLAGS) $^ -o $@ $(LDLIBS)
+	$(CC) $(TEST_CFLAGS) $(LDFLAGS) $^ -o $@ $(LDLIBS)
 
 $(BUILD_DIR) $(BIN_DIR):
 	mkdir -p $@
@@ -97,6 +97,10 @@ test: $(TEST_BINS)
 compile_flags:
 	@printf '%s\n' $(CFLAGS) > compile_flags.txt
 
+.PHONY: compile_flags_test
+compile_flags_test:
+	@printf '%s\n' $(TEST_CFLAGS) > compile_flags.txt
+
 .PHONY: package
 package: release
 	mkdir -p $(PACKAGE_DIR)/lib $(PACKAGE_DIR)/include
@@ -111,14 +115,15 @@ help:
 	@echo $(PROJECT_NAME) @ $(PROJECT_VERSION)
 	@echo
 	@echo "Target rules:"
-	@echo "    all              - Compiles and generates binary file"
-	@echo "    run              - Runs the compiled binary file"
-	@echo "    static           - Build static library"
-	@echo "    shared           - Build shared library"
-	@echo "    tests            - Compile and run tests binary file"
-	@echo "    compile_flags    - Creates the compile_flags.txt with the CFLAGS values"
-	@echo "    package          - Bundle lib/ and include/ into a tarball"
-	@echo "    debug            - Build with sanitizers and debug symbols"
-	@echo "    release          - Build with optimizations"
-	@echo "    clean            - Clean the project by removing binaries and object files"
-	@echo "    help             - Prints a help message with target rules"
+	@echo "    all                  - Compiles and generates binary file"
+	@echo "    run                  - Runs the compiled binary file"
+	@echo "    static               - Build static library"
+	@echo "    shared               - Build shared library"
+	@echo "    tests                - Compile and run tests binary file"
+	@echo "    compile_flags        - Creates the compile_flags.txt with the CFLAGS values"
+	@echo "    compile_flags_test   - Creates the compile_flags.txt with the TEST_CFLAGS values"
+	@echo "    package              - Bundle lib/ and include/ into a tarball"
+	@echo "    debug                - Build with sanitizers and debug symbols"
+	@echo "    release              - Build with optimizations"
+	@echo "    clean                - Clean the project by removing binaries and object files"
+	@echo "    help                 - Prints a help message with target rules"
